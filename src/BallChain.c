@@ -1,10 +1,10 @@
 #include <BallChain.h>
 
-void Ball_Init(Ball* ball, float pos, float x, float y, char isPusher, 
+void Ball_Init(Ball* ball, float pos, float x, float y, char isPusher,
 	char color, char bonus) {
 	ball->pos = pos;
-	ball->x = (x + 104) * 1.5;
-	ball->y = y * 1.5;
+	ball->x = (x + 104) * engine.scale_x;
+	ball->y = y * engine.scale_y;
 	ball->color = color;
 	ball->isInserted = 0;
 	ball->isExploding = 0;
@@ -183,6 +183,10 @@ void BallChain_Append(BallChain* ballChain, Level* lvl, LevelSettings* settings)
 }
 
 void BallChain_Update(BallChain* ballChain, SpiralDot* spiral, int spiralLen, int* score, Messages* msgs) {
+	if (!spiral || spiralLen <= 0) {
+		return;
+	}
+
 	for (int i = ballChain->len-1; i >= 0; i--) {
 		Ball* ball = &ballChain->balls[i];
 
@@ -271,19 +275,22 @@ void BallChain_Update(BallChain* ballChain, SpiralDot* spiral, int spiralLen, in
 		if (ball->pos < 0) {
 			if (ballChain->len == 1)
 				ball->pos = 0;
-			else
+			else {
 				BallChain_Destroy(ballChain, i, i);
+				continue;
+			}
 		}
 
 		if ((int)ball->pos >= spiralLen) {
 			BallChain_Destroy(ballChain, i, i);
 			ballChain->isGenerating = 0;
 			ballChain->isEndReached = 1;
+			continue;
 		}
 
 		float xx, yy;
-		xx = (ballChain->startX+104) * 1.5;
-		yy = ballChain->startY * 1.5;
+		xx = (ballChain->startX+104) * engine.scale_x;
+		yy = ballChain->startY * engine.scale_y;
 		
 		ball->pos += ball->spd;
 
@@ -367,17 +374,21 @@ void BallChain_Update(BallChain* ballChain, SpiralDot* spiral, int spiralLen, in
 
 
 		int j;
-		for (j = 0; j < (int)ball->pos; j++) {
+		int maxJ = (int)ball->pos < spiralLen ? (int)ball->pos : spiralLen - 1;
+		for (j = 0; j < maxJ; j++) {
 			xx += spiral[j].dx * engine.scale_x;
-			yy += spiral[j].dy * engine.scale_x;
+			yy += spiral[j].dy * engine.scale_y;
 
 			ball->ang = atan2(spiral[j].dy, spiral[j].dx) * RAD_TO_DEG;
 			ball->inTunnel = spiral[j].t1;
 			ball->drawPrority = spiral[j].t2;
 		}
 
-		xx = lerp(xx, xx + spiral[j].dx * engine.scale_x, modff(ball->pos, NULL));
-		yy = lerp(yy, yy + spiral[j].dy * engine.scale_x, modff(ball->pos, NULL));
+		if (j < spiralLen) {
+			float intpart;
+			xx = lerp(xx, xx + spiral[j].dx * engine.scale_x, modff(ball->pos, &intpart));
+			yy = lerp(yy, yy + spiral[j].dy * engine.scale_y, modff(ball->pos, &intpart));
+		}
 
 		ball->x = xx;
 		ball->y = yy;

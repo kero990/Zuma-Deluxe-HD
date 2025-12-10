@@ -1,0 +1,49 @@
+src/Level.c:489:    sprintf(info, " *- Graphics -*\n");
+src/Level.c:491:    sprintf(info, "%s id: %s\n", info, g->id);
+src/Level.c:492:    sprintf(info, "%s dispName: %s\n", info, g->dispName);
+src/Level.c:493:    sprintf(info, "%s spiral: %s\n", info, g->spiralFile);
+src/Level.c:494:    sprintf(info, "%s spiral2: %s\n", info, g->spiral2File);
+src/Level.c:495:    sprintf(info, "%s texture: %s\n", info, g->textureFile);
+src/Level.c:496:    sprintf(info, "%s top texture: %s\n", info, g->textureTopLayerFile);
+src/Level.c:497:    sprintf(info, "%s frog x: %lg; y: %lg\n\n", info, g->frogPos.x, g->frogPos.y);
+src/Level.c:499:    sprintf(info, "%s *- Settings -*\n", info);
+src/Level.c:501:    sprintf(info, "%s id: %s\n", info, s->id);
+src/Level.c:502:    sprintf(info, "%s part time: %d\n", info, s->partTime);
+src/Level.c:503:    sprintf(info, "%s repeat chance: %d\n", info, s->repeatChance);
+src/Level.c:504:    sprintf(info, "%s single chance: %d\n", info, s->singleChance);
+src/Level.c:505:    sprintf(info, "%s slow factor: %f\n", info, s->slowFactor);
+src/Level.c:506:    sprintf(info, "%s balls colors: %d\n", info, s->ballColors);
+src/Level.c:507:    sprintf(info, "%s balls spd: %f\n", info, s->ballSpd);
+src/Level.c:508:    sprintf(info, "%s balls start count: %d\n", info, s->ballStartCount);
+src/Level.c:509:    sprintf(info, "%s score: %d\n", info, s->gaugeScore);
+src/BallChain.c:235:								sprintf(txt, "+%d\nCOMBO x%d", score_delta, combo);
+src/BallChain.c:321:							sprintf(txt, "+%d\nCHAIN BONUS x%d", score_delta, ballChain->chainBonus);
+src/BallChain.c:356:					sprintf(txt, "+%d\nCHAIN BONUS x%d", score_delta, ballChain->chainBonus);
+src/main.c:17:    SDL_Texture* texDisc = Engine_TextureLoad("images\\disclaimer.jpg");
+src/MenuMgr.c:1153:        Engine_DrawText("REMASTER BY\nGALAXYSHAD AND S4LAT. 2021", FONT_CANCUN_10, 16, 660);
+src/Engine.c:6:    sprintf(errMsg, "%s\n%s", header, main);
+src/Engine.c:15:    sprintf(errMsg, "%s\nError code: %d", header, code);
+src/Engine.c:406:    while(str[i] != '\0') {
+src/Engine.c:409:        if (str[i] == '\n') {
+src/Engine.c:462:    while(str[i] != '\0') {
+src/Engine.c:465:        if (str[i] == '\n') {
+src/Engine.c:738:    fprintf(file, "MUSIC %d\n", mus);
+src/Engine.c:741:    fprintf(file, "SOUNDS %d\n", snd);
+include/Consts.h:15:    "thumbnails\\thumb (1).jpg",
+include/Consts.h:16:    "thumbnails\\thumb (2).jpg",
+include/Consts.h:17:    "thumbnails\\thumb (3).jpg",
+include/Consts.h:18:    "thumbnails\\thumb (4).jpg",
+include/Consts.h:19:    "thumbnails\\thumb (5).jpg",
+include/Consts.h:20:    "thumbnails\\thumb (6).jpg",
+include/Consts.h:21:    "thumbnails\\thumb (7).jpg",
+include/Consts.h:22:    "thumbnails\\thumb (8).jpg",
+include/Consts.h:23:    "thumbnails\\thumb (9).jpg",
+include/Consts.h:24:    "thumbnails\\thumb (10).jpg",
+include/Consts.h:25:    "thumbnails\\thumb (11).jpg",
+include/Consts.h:26:    "thumbnails\\thumb (12).jpg",
+include/Consts.h:27:    "thumbnails\\thumb (13).jpg",
+include/Consts.h:28:    "thumbnails\\thumb (14).jpg",
+include/Consts.h:29:    "thumbnails\\thumb (15).jpg",
+include/Consts.h:30:    "thumbnails\\thumb (16).jpg",
+include/Consts.h:31:    "thumbnails\\thumb (17).jpg",
+include/Consts.h:32:    "thumbnails\\thumb (18).jpg",

@@ -1,6 +1,7 @@
 #ifndef LEVEL_H
 #define LEVEL_H
 
+#include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
 #include <expat.h>

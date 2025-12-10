@@ -1,5 +1,5 @@
 #include "MenuMgr.h"
-
+#define min(a,b)  (((a) < (b)) ? (a) : (b))
 
 void Button_Init(Button* btn) {
     btn->state = BTN_IDLE;

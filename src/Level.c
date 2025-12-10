@@ -191,7 +191,7 @@ int LevelMgr_LoadLevels(const char* fileName) {
     int done;
 
     char path[STR_PATH_BUFFER_SIZE];
-    sprintf(path, "%s\\%s", PATH_LEVEL, fileName);
+    sprintf(path, "%s/%s", PATH_LEVEL, fileName);
 
     char* buff = malloc(XML_BUFF_SIZE);
     if (!buff) {
@@ -201,7 +201,7 @@ int LevelMgr_LoadLevels(const char* fileName) {
 
     FILE *fp = fopen(path, "r");
     if (!fp) {
-        Engine_PushErrorFile(path, "Не удалось открыть файл!");
+        Engine_PushErrorFile(path, "пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ!");
         return 0;
     }
 
@@ -344,7 +344,7 @@ int Level_Load(Level* level) {
 
     sprintf(
         path, 
-        "%s\\%s\\%s.jpg", 
+        "%s/%s/%s.jpg", 
         PATH_LEVEL,
         levelMgr.graphics[level->graphicsID].id,
         levelMgr.graphics[level->graphicsID].textureFile
@@ -357,7 +357,7 @@ int Level_Load(Level* level) {
     if (!(strcmp(levelMgr.graphics[level->graphicsID].textureTopLayerFile, "none") == 0)) {
         sprintf(
             path, 
-            "%s\\%s\\%s.png", 
+            "%s/%s/%s.png", 
             PATH_LEVEL,
             levelMgr.graphics[level->graphicsID].id,
             levelMgr.graphics[level->graphicsID].textureTopLayerFile
@@ -369,7 +369,7 @@ int Level_Load(Level* level) {
     
     sprintf(
         path, 
-        "%s\\%s\\%s.dat", 
+        "%s/%s/%s.dat", 
         PATH_LEVEL,
         levelMgr.graphics[level->graphicsID].id,
         levelMgr.graphics[level->graphicsID].spiralFile
@@ -379,26 +379,43 @@ int Level_Load(Level* level) {
         return 0;
 
     fseek(file, 0x10, SEEK_SET);
-    long count;
-    fread(&count, sizeof(long), 1, file);
+    int32_t count;
+    fread(&count, sizeof(int32_t), 1, file);
     fseek(file, 0x14 + count * 10, SEEK_SET);
 
-    long c;
+    int32_t c;
     float cx, cy;
 
-    fread(&c, sizeof(long), 1, file);
+    fread(&c, sizeof(int32_t), 1, file);
     fread(&cx, sizeof(float), 1, file);
     fread(&cy, sizeof(float), 1, file);
 
     level->spiralStart.x = cx;
     level->spiralStart.y = cy;
 
+    if (c <= 1) {
+        fclose(file);
+        Engine_PushErrorFile(path, "Invalid spiral data: count <= 1");
+        return 0;
+    }
+
     level->spiralLen = c-1;
+    if (level->spiralLen <= 0 || level->spiralLen > 100000) {
+        fclose(file);
+        Engine_PushErrorFile(path, "Invalid spiral length calculated");
+        return 0;
+    }
+
     level->spiral = malloc(sizeof(SpiralDot) * level->spiralLen);
+    if (!level->spiral) {
+        fclose(file);
+        Engine_PushErrorFile(path, "Failed to allocate memory for spiral");
+        return 0;
+    }
 
     long i;
     for (i = 0; i < level->spiralLen; i++) {
-        char t1, t2, x, y;
+        int8_t t1, t2, x, y;
         fread(&t1, 1, 1, file);
         fread(&t2, 1, 1, file);
         fread(&x, 1, 1, file);
