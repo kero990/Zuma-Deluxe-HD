@@ -13,32 +13,15 @@ jobs:
         include:
           - arch: amd64
             runner: ubuntu-latest
-            container_image: debian:10
           - arch: arm64
             runner: ubuntu-24.04-arm
-            container_image: arm64v8/debian:10
 
     runs-on: ${{ matrix.runner }}
     container:
-      image: ${{ matrix.container_image }}
+      image: python:3.11-buster
 
     steps:
-      - name: Verify and fix architecture
-        run: |
-          echo "=== System Architecture ==="
-          uname -m
-          echo "=== dpkg Architecture ==="
-          dpkg --print-architecture || true
-          echo "=== Foreign Architectures ==="
-          dpkg --print-foreign-architectures || true
 
-          # Fix architecture if needed
-          if [ "${{ matrix.arch }}" = "arm64" ]; then
-            if [ "$(dpkg --print-architecture 2>/dev/null || echo '')" != "arm64" ]; then
-              echo "arm64" > /var/lib/dpkg/arch
-              dpkg --add-architecture arm64 || true
-            fi
-          fi
 
       - name: Fix Debian 10 repository sources
         run: |
