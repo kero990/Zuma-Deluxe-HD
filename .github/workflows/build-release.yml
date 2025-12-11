@@ -8,59 +8,56 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         include:
           - arch: amd64
-            platform: linux/amd64
+            runner: ubuntu-latest
           - arch: arm64
-            platform: linux/arm64
+            runner: ubuntu-24.04-arm
+
+    runs-on: ${{ matrix.runner }}
+    container:
+      image: debian:10
 
     steps:
+      - name: Fix Debian 10 repository sources
+        run: |
+          sed -i 's@deb.debian.org@archive.debian.org@g' /etc/apt/sources.list
+          sed -i 's|security.debian.org|archive.debian.org|g' /etc/apt/sources.list
+          sed -i '/updates/d' /etc/apt/sources.list
+
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y \
+            build-essential \
+            cmake \
+            git \
+            wget \
+            curl \
+            pkg-config \
+            dpkg-dev \
+            binutils \
+            libsdl2-dev \
+            libsdl2-image-dev \
+            libsdl2-ttf-dev
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+      - name: Download BASS dependencies
+        run: ./scripts/download_deps.sh
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build in Debian container
+      - name: Build project
         run: |
-          docker run --rm --platform ${{ matrix.platform }} \
-            -v $PWD:/workspace \
-            -w /workspace \
-            debian:10 \
-            bash -c '
-              set -e
-              apt-get update
-              apt-get install -y \
-                build-essential \
-                cmake \
-                git \
-                wget \
-                curl \
-                pkg-config \
-                dpkg-dev \
-                binutils \
-                libsdl2-dev \
-                libsdl2-image-dev \
-                libsdl2-ttf-dev
-
-              # Download BASS dependencies
-              ./scripts/download_deps.sh
-
-              # Build project
-              mkdir -p build
-              cd build
-              cmake .. -DCMAKE_BUILD_TYPE=Release
-              make -j$(nproc)
-              make install
-            '
+          mkdir -p build
+          cd build
+          cmake .. -DCMAKE_BUILD_TYPE=Release
+          make -j$(nproc)
+          make install
 
       - name: Get version
         id: version
