@@ -1,0 +1,17 @@
+{
+  "appid": "io.github.kero990.zuma-deluxe-hd",
+  "name": "Zuma Deluxe HD",
+  "version": "VVVV",
+  "arch": ["AAAA"],
+  "permissions": {
+    "autostart": false,
+    "notification": false,
+    "trayicon": false,
+    "clipboard": true,
+    "account": false,
+    "bluetooth": false,
+    "camera": false,
+    "audio_record": false,
+    "installed_apps": false
+  }
+}

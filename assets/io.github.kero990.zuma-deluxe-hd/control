@@ -1,0 +1,13 @@
+Package: io.github.kero990.zuma-deluxe-hd
+Version: VVVV
+Architecture: AAAA
+Maintainer: kero990 <noreply@github.com>
+Section: games
+Priority: optional
+Installed-Size: 50000
+Description: Zuma Deluxe HD - A remake of the classic PopCap game
+ Zuma-Deluxe-HD is a C-based remake of the 2003 PopCap game Zuma,
+ featuring improved HD textures and 16:9 aspect ratio support.
+ .
+ The project uses SDL2 for graphics, BASS audio library for sound,
+ and libexpat for XML parsing.

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Zuma Deluxe HD
+GenericName=Puzzle Game
+Comment=A remake of the classic PopCap game with HD textures
+Exec=/opt/apps/io.github.kero990.zuma-deluxe-hd/files/run.sh
+Icon=io.github.kero990.zuma-deluxe-hd
+Terminal=false
+Categories=Game;ArcadeGame;
+Keywords=zuma;game;puzzle;arcade;
