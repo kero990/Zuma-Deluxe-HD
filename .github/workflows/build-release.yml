@@ -26,16 +26,19 @@ jobs:
           sed -i 's@deb.debian.org@archive.debian.org@g' /etc/apt/sources.list
           sed -i 's|security.debian.org|archive.debian.org|g' /etc/apt/sources.list
           sed -i '/updates/d' /etc/apt/sources.list
+          cat /etc/apt/sources.list
 
       - name: Install dependencies
         run: |
+          export DEBIAN_FRONTEND=noninteractive
           apt-get update
-          apt-get install -y \
+          apt-get install -y --fix-missing --no-install-recommends \
             build-essential \
             cmake \
             git \
             wget \
             curl \
+            ca-certificates \
             pkg-config \
             dpkg-dev \
             binutils \
